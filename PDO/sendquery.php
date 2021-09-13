@@ -1,6 +1,8 @@
 <?php
 try{
-    $pdo = new PDO('mysql:dbname=kurserwaltung;host:localhost', 'root', '');
+    $pdo = new PDO(
+        'mysql:dbname=kursverwaltung;host:localhost;charset=utf-8',
+        'root', '');
 } catch(PDOException $e){
     die("An error has occurred");
 }
