@@ -1,6 +1,6 @@
 <?php
 try {
-    $pdo = new PDO('mysql:dbname=kursverwaltung;host=localhost','root', '');
+    $pdo = new PDO('mysql:dbname=kursverwaltung;host=127.0.0.1','root', '');
 } catch(PDOException $e){
     die("There has been an error building a connection.");
 }
