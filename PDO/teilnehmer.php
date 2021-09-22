@@ -17,6 +17,7 @@
     <h1>Teilnehmer</h1>
     <div class="ausgabe">
     <?php
+        // objekt der klasse teilnehemr instanziieren 
         $teilnehmer = new teilnehmer();
         $teilnehmer->lesenAlleDaten();
     ?>
