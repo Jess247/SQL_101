@@ -34,7 +34,7 @@ class teilnehmer {
                 if($count % 2 == 0) {
                     $zebratyp = "gerade";
                 }
-                echo "class\"". $zebratyp."\">\n\t<td>"
+                echo "class=\"". $zebratyp."\">\n\t<td>"
                 .htmlspecialchars($z['tnummer'])
                 ."</td>\n\t<td>"
                 .htmlspecialchars($z['name'])
@@ -58,7 +58,7 @@ class teilnehmer {
                 ."<a href=\"tbearbeiten.php?tnummer="
                 .htmlspecialchars($z['tnummer'])
                 ."\">bearbeiten</a>"
-                ."</td> \n\</tr>";
+                ."</td> \n\t</tr>";
             }
             echo "</table>";
 
