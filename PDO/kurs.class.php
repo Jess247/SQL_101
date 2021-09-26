@@ -9,7 +9,7 @@ private $tabelle = "kurs";
                 FROM " .$this->tabelle ."
                 WHERE kursnr=:kursnr";
      if ($stmt = $pdo -> prepare($sql)) {
-       	$stmt->bindParam(':tnummer', $id);
+       	$stmt->bindParam(':kursnr', $id);
         $stmt -> execute();
         return($stmt->fetch(PDO::FETCH_ASSOC));
     }    
@@ -30,11 +30,11 @@ public function loeschen($id) {
 public function anlegen() {
      require("db.inc.php");
   	
-    $tnummer = NULL;
+    $kursnr = NULL;
 	$ressort = $_POST["ressort"];
-	$vname = $_POST["titel"];
-	$plz = $_POST["beschreibung"];
-	$ort = $_POST["preis"];
+	$titel = $_POST["titel"];
+	$beschreibung = $_POST["beschreibung"];
+	$preis = $_POST["preis"];
 	
 	
     $sql = "INSERT INTO " .$this->tabelle ." (
@@ -65,41 +65,26 @@ public function anlegen() {
 public function bearbeiten() {
     require("db.inc.php");
  	
-    $tnummer = $_POST["mode"];
-    $name = $_POST["name"];
-    $vname = $_POST["vname"];
-    $plz = $_POST["plz"];
-    $ort = $_POST["ort"];
-    $strasse = $_POST["strasse"];
-    $hausnr = $_POST["hausnr"];
-    $telefon1 = $_POST["telefon1"];
-    $telefon2 = $_POST["telefon2"];
-    $email = $_POST["email"];
+    $kursnr = $_POST["mode"];
+	$ressort = $_POST["ressort"];
+	$titel = $_POST["titel"];
+	$beschreibung = $_POST["beschreibung"];
+	$preis = $_POST["preis"];
 
     $sql = "UPDATE ". $this->tabelle . " SET 
-				name = :name, 
-				vname = :vname, 
-				plz = :plz, 
-				ort = :ort, 
-				strasse = :strasse, 
-				hausnr = :hausnr, 
-				telefon1 = :telefon1, 
-				telefon2 = :telefon2, 
-				email = :email 
-			WHERE tnummer = :tnummer";
+				ressort = :ressort, 
+				titel = :titel, 
+				beschreibung = :beschreibung, 
+				preis = :preis
+			WHERE kursnr = :kursnr";
     
     if ($stmt = $pdo -> prepare($sql)) {
     	$param = array(
-    			':tnummer' => $tnummer,
-    			':name' => $name,
-    			':vname'=>$vname,
-    			':plz'=>$plz,
-    			':ort'=>$ort,
-    			':strasse'=>$strasse,
-    			':hausnr'=>$hausnr,
-    			':telefon1'=>$telefon1,
-    			':telefon2'=>$telefon2,
-    			':email'=> $email);
+            ':kursnr' => $kursnr,
+            ':ressort' => $ressort,
+            ':titel'=>$titel,
+            ':beschreibung'=>$beschreibung,
+            ':preis'=>$preis);
 
 		if($stmt -> execute($param)) {
 			echo "<h2>Datensatz erfolgreich gespeichert!</h2>\n";
@@ -112,18 +97,16 @@ public function bearbeiten() {
 
  
 public function lesenAlleDaten() {
-    $sql = "SELECT tnummer, name, vname, plz,
-				ort, strasse, hausnr, 
-				telefon1, telefon2, email 
+    $sql = "SELECT kursnr, ressort, titel,
+    beschreibung, preis
              FROM " .$this->tabelle ." 
-             ORDER BY name";
+             ORDER BY kursnr";
     $this->baueTeilnehmerTabelle($sql);
 }
 
 public function suchen() {
-	$sql = "SELECT tnummer, name, vname, plz,
-				ort, strasse, hausnr,
-				telefon1, telefon2, email
+	$sql = "SELECT kursnr, ressort, titel,
+        beschreibung, preis
              FROM " .$this->tabelle ."
              WHERE";
     $count = 0;   
@@ -148,9 +131,8 @@ private function baueTeilnehmerTabelle($sql) {
         echo "<table id=\"zebra\">\n\t";
         echo "<thead>
                 <tr>
-                    <th>Nummer</th><th>Name</th><th>Vorname</th><th>Plz</th>
-                    <th>Ort</th><th>Straße</th><th>Haus-Nr.</th><th>Telefon 1</th>
-                    <th>Telefon 2</th><th>E-Mail</th><th>Bearbeiten</th>
+                    <th>Nummer</th><th>Ressort</th><th>Titel</th><th>Bearbeiten</th>
+                    <th>Preis</th><th>Bearbeiten</th>
                 </tr>
             </thead>";
         echo "<tbody>\n\t";
@@ -164,28 +146,18 @@ private function baueTeilnehmerTabelle($sql) {
             }
             echo "class=\"" .$zebratyp
             ."\">\n\t<td>"
-            . htmlspecialchars($z['tnummer'])
+            . htmlspecialchars($z['kursnr'])
             ."</td>\n\t<td>"
-            . htmlspecialchars($z['name'])
+            . htmlspecialchars($z['ressort'])
             ."</td>\n\t<td>"
-            . htmlspecialchars($z['vname'])
+            . htmlspecialchars($z['titel'])
             ."</td>\n\t<td>"
-            . htmlspecialchars($z['plz'])
+            . htmlspecialchars($z['beschreibung'])
             ."</td>\n\t<td>"
-            . htmlspecialchars($z['ort'])
+            . htmlspecialchars($z['preis'])
             ."</td>\n\t<td>"
-            . htmlspecialchars($z['strasse'])
-            ."</td>\n\t<td>"
-            . htmlspecialchars($z['hausnr'])
-            ."</td>\n\t<td>"
-            . htmlspecialchars($z['telefon1'])
-            ."</td>\n\t<td>"
-            . htmlspecialchars($z['telefon2'])
-            ."</td>\n\t<td>"
-            . htmlspecialchars($z['email'])
-            ."</td>\n\t<td>"
-            ."<a href=\"tbearbeiten.php?tnummer=" 
-            		.htmlspecialchars($z['tnummer']) 
+            ."<a href=\"kbearbeiten.php?kursnr=" 
+            		.htmlspecialchars($z['kursnr']) 
             		."\">bearbeiten</<a>"
             ."</td>\n</tr>";
         }

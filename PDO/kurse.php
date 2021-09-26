@@ -20,8 +20,8 @@
 ?>
 </div>
 <p>
-	<a class="button" href="tbearbeiten.php">Neuen Teilnehmer anlegen</a> 
-	<a class="button" href="tsuchen.php">Teilnehmer suchen</a>
+	<a class="button" href="kbearbeiten.php">Neuen Teilnehmer anlegen</a> 
+	<a class="button" href="ksuchen.php">Teilnehmer suchen</a>
 </p>
 </body>
 </html>
