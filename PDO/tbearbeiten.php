@@ -18,13 +18,16 @@
     $teilnehmer = new teilnehmer();
 
         if(isset($_POST["mode"])) {
-            if(isset($_POST["mode"]) == "null") {
+            if($_POST["mode"] == "null") {
                 $teilnehmer->anlegen();
             } else {
                 $teilnehmer->bearbeiten();
             } 
 
-            header("refresh:3; url=teilnehmer.php");
+            header( "Refresh:3; url=teilnehmer.php" );
+            echo 'You\'ll be redirected in about 3 secs. If not, click <a href="teilnehmer.php">here</a>.'; 
+
+
         } else {
             ?>
             <div class="ausgabe">
@@ -32,7 +35,7 @@
             $tData = array();
 
             if (isset($_GET["tnummer"])) {
-                $tdata = $teilnehmer->lesenDatensatz($_GET["tnummer"]);
+                $tData = $teilnehmer->lesenDatensatz($_GET["tnummer"]);
                 $tnummer = $_GET["tnummer"];
             ?>
 

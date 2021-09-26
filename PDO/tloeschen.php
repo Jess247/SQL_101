@@ -20,7 +20,9 @@
         $teilnehmer->loeschen($_GET["tnummer"]);
         echo "<h2>Teilnehmer erfolgreich gelöscht!</h2>";
     }
-    header("refresh:3;url=teilnehmer.php");
+
+    header( "refresh:3; url=teilnehmer.php" );
+    echo 'You\'ll be redirected in about 3 secs. If not, click <a href="teilnehmer.php">here</a>.'; 
 ?>
 </body>
 </html>
