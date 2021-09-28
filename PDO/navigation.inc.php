@@ -4,5 +4,5 @@
     <a class="button" href="termine.php">Termine</a>
     <a class="button" href="kurse.php">Kurse</a>
     <a class="button" href="dozenten.php">Dozenten</a>
-    <a class="button" href="burchung.php">Buchung</a>
+    <a class="button" href="buchung.php">Buchung</a>
 </div>
