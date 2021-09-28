@@ -28,6 +28,7 @@ public function loeschen($id) {
 }
  
 public function anlegen() {
+    
      require("db.inc.php");
   	
     $kursnr = NULL;
