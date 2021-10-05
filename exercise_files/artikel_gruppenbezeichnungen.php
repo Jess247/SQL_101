@@ -14,7 +14,7 @@ private $tabelle = "artikel";
 
  
 public function lesenAlleDaten() {
-    $sql="SELECT * FROM .$this->tabelle 
+    $sql="SELECT * FROM . $this->tabelle 
     . JOIN gruppen ON artikel.gnr=gruppen.gnr  
             ORDER BY artikel.anr";
     
