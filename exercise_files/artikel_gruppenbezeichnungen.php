@@ -14,9 +14,9 @@ private $tabelle = "artikel";
 
  
 public function lesenAlleDaten() {
-    $sql="SELECT * FROM . $this->tabelle 
-    . JOIN gruppen ON artikel.gnr=gruppen.gnr  
-            ORDER BY artikel.anr";
+    $sql="SELECT * FROM ". $this->tabelle 
+    . " JOIN gruppen ON
+     artikel.gnr = gruppen.gnr";
     
     $this->baueTabelle($sql);
 }
@@ -41,9 +41,7 @@ private function baueTabelle($sql) {
                 </tr>
             </thead>";
         echo "<tbody>\n\t";
-        $count = 0;
         while ($z = $stmt -> fetch()) {
-            $count += 1;
             
             echo "<tr>\n\t<td>"
             . htmlspecialchars($z['anr'])
