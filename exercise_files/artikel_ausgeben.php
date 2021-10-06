@@ -14,8 +14,7 @@ private $tabelle = "artikel";
 
  
 public function lesenAlleDaten() {
-    $sql = "SELECT anr, gnr, name, preis 
-             FROM " .$this->tabelle ." 
+    $sql = "SELECT * FROM " .$this->tabelle ." 
              ORDER BY anr";
     $this->baueTeilnehmerTabelle($sql);
 }
