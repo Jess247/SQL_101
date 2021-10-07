@@ -1,31 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artikel Ausgeben</title>
+	<meta charset="utf-8" />
+	<title>Artikel Löschen</title>
 </head>
 <body>
-<?php
+    <?php
 
 
 class artikel {
 
-    private $tabelle = "artikel";
+    public function lesenDatensatz($id) {
 
-    public function buildSelect($tab, $anr, $name, $def)
-{
-    $s = "<select name=\"" .$anr ."\" id=\"" .$anr ."\">";
-      
-    try {
-        $pdo = new PDO(
-            'mysql:dbname=bestelldatenbank;host=127.0.0.1;charset=utf8', 
-            'root', '');
-    } catch(PDOException $e) {
-        die($e->getMessage());
+try {
+    $pdo = new PDO(
+        'mysql:dbname=bestelldatenbank;host=127.0.0.1;charset=utf8', 
+        'root', '');
+} catch(PDOException $e) {
+    die($e->getMessage());
+}
+
+        if ($stmt = $pdo -> prepare("SELECT anr, name 
+                                            FROM artikel 
+                                           WHERE anr=:anr")) {
+            $stmt->bindParam(':anr',$id);
+            $stmt -> execute();
+            return($stmt->fetch(PDO::FETCH_ASSOC));
     }
-    $sql = "SELECT " .$anr .", " .$name ." FROM " .$tab;
+    else {
+        return false;
+    }
+    }
+
+    public function einfuegenSelect($tab, $val, $text, $def)
+{
+    $s = "<select name=\"" .$val ."\" id=\"" .$val ."\">";
+      
+
+try {
+    $pdo = new PDO(
+        'mysql:dbname=bestelldatenbank;host=127.0.0.1;charset=utf8', 
+        'root', '');
+} catch(PDOException $e) {
+    die($e->getMessage());
+}
+
+    $sql = "SELECT " .$val .", " .$text ." FROM " .$tab;
     if ($stmt = $pdo -> prepare($sql)) {
       
         $stmt -> execute();
@@ -33,20 +53,18 @@ class artikel {
             $s = $s ."<option value=\"". $z[0] ."\"";
             if($z[0] == $def){
                 $s = $s ." selected";
-                echo "you selected" .$z;
             }
             $s = $s .">" .$z[0] ." | " .$z[1]."</option>";
         }
         $s = $s ."</select>";
-        echo $s;      
+        return $s;      
     }
     else {
         return false;
     }
  }
 
-
- public function delete($id) {
+ public function loeschen($id) {
     try {
         $pdo = new PDO(
             'mysql:dbname=bestelldatenbank;host=127.0.0.1;charset=utf8', 
@@ -55,33 +73,69 @@ class artikel {
         die($e->getMessage());
     }
 
-    $sql = "DELETE FROM " 
-            .$this->tabelle 
-            ." WHERE anr = :anr";
+
+    $sql = "DELETE FROM " .$this->tabelle ." WHERE anr = :anr";
     if ($stmt = $pdo -> prepare($sql)) {
        $stmt->bindParam(':anr', $id);
        $stmt -> execute();
+       echo $id ." was deleted";
      }
 }
 
 
 }
 
-
-?>
-
-
-<form action="" method="post">
-    <label for="anr">Artikel: </label>
-    <?php
-        $datensatz = array();
+if (isset($_POST["mode"])) {
         
-        $artikel = new artikel;
-        $anr = $_GET["anr"];
-        $artikel->buildSelect("artikel", "anr","name", $_GET["anr"]);
-    ?>
-    <a href="loeschen.php?anr=<?php echo $anr; ?>">Teilnehmer löschen</a>
+    if($_POST["mode"] == "null"){
+        echo "mode is NULL";
+    }
+    else {
+        echo "mode is ".$_POST["mode"];
+    }
 
-</form>
+header("refresh:3");
+}
+else {
+
+
+
+
+        $artikel = new artikel();
+
+        $tData = array();
+
+        if (isset($_GET["anr"])) {
+            $tData = $artikel->lesenDatensatz($_GET["anr"]);
+            $anr = $_GET["anr"];
+            echo $anr;
+    ?>
+
+    <form action="" method="POST">
+    <input type="hidden" id="mode" name="mode" 
+                value="<?php echo $anr; ?>" />
+        <label for="anr">Termin: </label>
+        <?php echo $artikel->einfuegenSelect("artikel", "anr", "name", $tData['anr']); ?>
+        </form>
+        
+        <p><a class="button" href="loeschen.php?anr=<?php echo $anr; ?>">Artikel löschen</a></p>
+    </form>
+    <?PHP
+    }
+            
+    else {
+    ?> 
+     <form action="loeschen.php?anr=<?php echo $anr; ?>" method="POST">
+     <input type="hidden" id="mode" name="mode" value="null" />
+        <label for="anr">Termin: </label>
+        <?php echo $artikel->einfuegenSelect("artikel", "anr", "name", "anr"); ?>
+        <br />
+        <input type="submit" value="Datensatz löschen">
+    </form> 
+    <?php
+        echo "I think that didnt work!";
+    }
+}
+    ?>
 </body>
 </html>

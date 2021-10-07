@@ -4,14 +4,7 @@ class buchung {
 
 private $tabelle = "buchung";
 
-public function loeschen($id) {
-     require("db.inc.php");
-     $sql = "DELETE FROM " .$this->tabelle ." WHERE bnummer = :bnummer";
-     if ($stmt = $pdo -> prepare($sql)) {
-		$stmt->bindParam(':bnummer', $id);
-        $stmt -> execute();
-      }
-}
+
  public function anlegen() {
      require("db.inc.php");
   	
