@@ -1,30 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artikel löschen</title>
-    <?php
-
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-    require("artikel_loeschen.php");
-    ?>
+<meta charset="UTF-8" />
+<title>Einsendeaufgabe_Nr. 3 - Artikel löschen</title>
 </head>
 <body>
 <?php
-    if(isset($_GET['anr'])){
-        $deletArt = new artikel;
-        $deletArt->delete($_GET["anr"]);
-        echo "<h2>Artikel erfolgreich gelöscht!</h2>";
-    } else {
-        echo "<h2>Artikel konnte gelöscht werden!</h2>";
-    }
 
-    echo 'You\'ll be redirected in about 3 secs. If not, click <a href="artikel_loeschen.php">here</a>.'; 
+   
+class artikel {
+
+
+    function loeschen($id) {
+        try {
+            $pdo = new PDO(
+                'mysql:dbname=bestelldatenbank;host=127.0.0.1;charset=utf8', 
+                'root', '');
+        } catch(PDOException $e) {
+            die($e->getMessage());
+        }
+    
+    $sql = "DELETE FROM artikel WHERE anr = :anr";
+    if ($stmt =$pdo->prepare ($sql)){
+        $stmt->bindParam(':anr', $id);
+        $stmt->execute ();
+        }
+    }
+    
+    public function createSelect(){
+        try {
+            $pdo = new PDO(
+                'mysql:dbname=bestelldatenbank;host=127.0.0.1;charset=utf8', 
+                'root', '');
+        } catch(PDOException $e) {
+            die($e->getMessage());
+        }
+
+    $sql = "SELECT anr, name FROM artikel";
+    if ($stmt =$pdo->prepare ($sql)){
+        $stmt->execute ();
+        echo "<form>";
+        echo "<label>Artikel: </label>";
+        echo "<select>";
+        while ($z = $stmt -> fetch()) {
+            echo "<option value=\"".$z['anr']."\"";
+            if($z["anr"] == $_GET["anr"]){
+                echo " selected";
+            }
+            echo " > ".$z['anr']." | ". $z['name'];
+            echo "</option>";
+        }
+        echo "</select>";
+        echo " ";
+        echo "<input type='submit' value='Datensatz löschen' />";
+        echo "</form>";
+     } 
+    }
+}
+
+// Datensatzlesen und in variable speichern (array der ergebnisliste) als Übergabe wert für createSelect()
+
+$artikel = new artikel();
+$artikel -> createSelect();
+
+if($selected) {
+		$artikel -> loeschen($_GET["anr"]);
+		echo "<h2>Teilnehmer gelöscht</h2>";
+    }  
 ?>
 </body>
 </html>
