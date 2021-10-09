@@ -14,7 +14,10 @@ private $tabelle = "artikel";
 
  
 public function lesenAlleDaten() {
-    $sql="SELECT * FROM ". $this->tabelle 
+    $sql="SELECT artikel.anr,
+                 gruppen.gruppe AS gruppenGruppe,
+                 artikel.name, artikel.preis
+                FROM ". $this->tabelle 
     . " JOIN gruppen ON
      artikel.gnr = gruppen.gnr";
     
@@ -46,7 +49,7 @@ private function baueTabelle($sql) {
             echo "<tr>\n\t<td>"
             . htmlspecialchars($z['anr'])
             ."</td>\n\t<td>"
-            . htmlspecialchars($z['gnr'])
+            . htmlspecialchars($z['gruppenGruppe'])
             ."</td>\n\t<td>"
             . htmlspecialchars($z['name'])
             ."</td>\n\t<td>"

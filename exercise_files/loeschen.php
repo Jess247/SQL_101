@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8 (Without BOM)" />
 <title>Einsendeaufgabe_Nr. 3 - Artikel löschen</title>
 </head>
 <body>
@@ -39,9 +39,9 @@ class artikel {
     $sql = "SELECT anr, name FROM artikel";
     if ($stmt =$pdo->prepare ($sql)){
         $stmt->execute ();
-        echo "<form>";
+        echo "<form method=\"post\"";
         echo "<label>Artikel: </label>";
-        echo "<select>";
+        echo "<select name=\"artikel\">";
         while ($z = $stmt -> fetch()) {
             echo "<option value=\"".$z['anr']."\"";
             if($z["anr"] == $_GET["anr"]){
@@ -62,10 +62,11 @@ class artikel {
 
 $artikel = new artikel();
 $artikel -> createSelect();
-
+$selected = $_POST["artikel"];
 if($selected) {
-		$artikel -> loeschen($_GET["anr"]);
-		echo "<h2>Teilnehmer gelöscht</h2>";
+		$artikel -> loeschen($selected);
+		echo "<h2>Artikel wurde gelöscht!</h2>";
+        header("Refresh:3");
     }  
 ?>
 </body>
