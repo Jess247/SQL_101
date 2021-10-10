@@ -4,28 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artikel Ausgeben</title>
+    <title>Artikel mit Gruppenbezeichnung Ausgeben</title>
 </head>
 <body>
 <?php
 class artikel {
 
-private $tabelle = "artikel";
+private $table = "artikel";
 
  
-public function lesenAlleDaten() {
+public function readData() {
     $sql="SELECT artikel.anr,
                  gruppen.gruppe AS gruppenGruppe,
                  artikel.name, artikel.preis
-                FROM ". $this->tabelle 
-    . " JOIN gruppen ON
-     artikel.gnr = gruppen.gnr";
+        FROM ". $this->table 
+        . " JOIN gruppen ON
+        artikel.gnr = gruppen.gnr";
     
-    $this->baueTabelle($sql);
+    $this->createTable($sql);
 }
 
 
-private function baueTabelle($sql) {
+private function createTable($sql) {
     
     try {
         $pdo = new PDO(
@@ -65,7 +65,7 @@ private function baueTabelle($sql) {
 <div>
 <?php
     $artikel = new artikel();
-    $artikel->lesenAlleDaten();
+    $artikel->readData();
 ?>
 </div>
 

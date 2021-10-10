@@ -10,17 +10,17 @@
 <?php
 class artikel {
 
-private $tabelle = "artikel";
+private $table = "artikel";
 
  
-public function lesenAlleDaten() {
-    $sql = "SELECT * FROM " .$this->tabelle ." 
+public function readData() {
+    $sql = "SELECT * FROM " .$this->table ." 
              ORDER BY anr";
-    $this->baueTeilnehmerTabelle($sql);
+    $this->createTable($sql);
 }
 
 
-private function baueTeilnehmerTabelle($sql) {
+private function createTable($sql) {
     
     try {
         $pdo = new PDO(
@@ -62,7 +62,7 @@ private function baueTeilnehmerTabelle($sql) {
 <div>
 <?php
     $artikel = new artikel();
-    $artikel->lesenAlleDaten();
+    $artikel->readData();
 ?>
 </div>
 
